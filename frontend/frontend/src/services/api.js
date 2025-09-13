@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:5000';
+// Use environment variable for backend URL
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export async function getRooms() {
     const res = await fetch(`${API_URL}/rooms`);
@@ -21,3 +22,4 @@ export async function randomOccupancy() {
 export async function resetRooms() {
     await fetch(`${API_URL}/reset`, { method: 'POST' });
 }
+
