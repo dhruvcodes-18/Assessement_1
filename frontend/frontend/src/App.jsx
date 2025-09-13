@@ -32,7 +32,7 @@ function App() {
 
     return (
         <div style={{ padding: '20px' }}>
-            <h1>Hotel Room Booking System</h1>
+            <h1>Hotel Room Booking System By Dhruv Sinha</h1>
             <BookingForm onBook={handleBook} onRandom={handleRandom} onReset={handleReset} />
             <RoomGrid rooms={rooms} />
         </div>
