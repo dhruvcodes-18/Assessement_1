@@ -131,15 +131,17 @@ app.post('/book', (req, res) => {
 
 // ----------------- Serve Frontend -----------------
 
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
+// Correct path for your nested frontend folder
+const frontendPath = path.resolve(__dirname, '../frontend/frontend/dist');
+
+app.use(express.static(frontendPath));
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+    res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
 // ----------------- Start Server -----------------
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
 
