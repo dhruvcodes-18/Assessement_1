@@ -1,10 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path'); // For serving frontend
 const rooms = require('./roomsData');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// ----------------- Helper Functions -----------------
 
 // Calculate total travel time between first and last room in the list
 function calculateTravelTime(roomNumbers) {
@@ -24,12 +27,12 @@ function calculateTravelTime(roomNumbers) {
     return time;
 }
 
-// Helper to get all currently available (unbooked) rooms
+// Get all currently available (unbooked) rooms
 function getAvailableRooms() {
     return Object.keys(rooms).filter(room => !rooms[room].booked);
 }
 
-// Helper function to get all combinations of k elements from array
+// Get all combinations of k elements from array
 function getCombinations(arr, k) {
     const results = [];
     function backtrack(start, comb) {
@@ -46,6 +49,8 @@ function getCombinations(arr, k) {
     backtrack(0, []);
     return results;
 }
+
+// ----------------- API Routes -----------------
 
 app.get('/rooms', (req, res) => {
     res.json(rooms);
@@ -124,6 +129,17 @@ app.post('/book', (req, res) => {
     res.json({ bookedRooms: bestSet });
 });
 
+// ----------------- Serve Frontend -----------------
+
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+});
+
+// ----------------- Start Server -----------------
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
 
